@@ -1,3 +1,6 @@
+# Resources files
+resources/TrabalhoFinal2.pdf
+
 # Prerequisites
 *.d
 
@@ -50,3 +53,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#ignore binary file for the program
+dicionario
