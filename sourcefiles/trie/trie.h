@@ -14,4 +14,6 @@ int trie_procurar_palavra(Trie *raiz, char *palavra);
 
 void trie_imprimir_palavras(Trie *raiz);
 
+Trie* trie_procurar_prefixo(Trie *raiz, char *palavra){
+
 #endif
