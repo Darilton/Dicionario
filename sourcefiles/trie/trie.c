@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "trie.h"
+#include "../string/string.h"
 #include "../char_utils/char_utils.h"
 
 #define TAMANHO_DO_ALFABETO 26
@@ -22,19 +23,23 @@ Trie *novo_no(){
 
 	temp_no->fim_palavra = 0;
 
+	//inicializa o ponteiro das letras com NULL
 	for(int i = 0; i < TAMANHO_DO_ALFABETO; i++)
 		temp_no->proxima_letra[i] = NULL;
 
 	return temp_no;
 }
 
-Trie *trie_nova_arvore() {return novo_no();};
+Trie *trie_nova_arvore() { return novo_no(); }
 
 void trie_inserir_palavra(Trie *raiz, char *palavra){
 	int indice, i = 0;
 
+	//enquanto nao for o fim da palavra
 	while(palavra[i] != '\0'){
 		indice = char_to_num(palavra[i++]);
+
+		//se a proxima letra nao existe no vetor cria um novo no para essa letra
 		if(!raiz->proxima_letra[indice])
 			raiz->proxima_letra[indice] = novo_no();
 
@@ -44,13 +49,39 @@ void trie_inserir_palavra(Trie *raiz, char *palavra){
 	raiz->fim_palavra = 1;
 }
 
+void trie_imprimir_palavra_comecada_em(Trie *raiz, char *prefixo){
+	Trie *ultimo_no_prefixo = trie_procurar_prefixo(raiz, prefixo);
+
+	if(ultimo_no_prefixo){
+		if(ultimo_no_prefixo->fim_palavra)
+			printf("%s\n", prefixo);
+		else{
+			//procuar pela proxima letra da palavra no vetor
+			int i = 0;
+			for(; (i < TAMANHO_DO_ALFABETO); i++){
+				if(ultimo_no_prefixo->proxima_letra[i])
+					break;
+			}
+
+			//acrescenta a letra encontrada
+			char *novo_prefixo = add_char_na_palavra(prefixo,int_to_char(i));
+
+			trie_imprimir_palavra_comecada_em(raiz, novo_prefixo);
+			free(novo_prefixo);
+		}
+	}else
+		printf("%s nao existe na arvore\n", prefixo);
+}
+
 int trie_procurar_palavra(Trie *raiz, char *palavra){
 	Trie *ultimo_no_prefixo = trie_procurar_prefixo(raiz, palavra);
 
-	if(ultimo_no_prefixo)
+	//se o prefixo existe, verifica se é palavra
+	if(ultimo_no_prefixo != NULL)
 		return ultimo_no_prefixo->fim_palavra;
 
-	else return 0;
+	else 
+		return 0;
 		
 }
 
@@ -59,8 +90,11 @@ Trie* trie_procurar_prefixo(Trie *raiz, char *palavra){
 	if(raiz == NULL)
 		return 0;
 
+	//enquanto nao for o fim da palavra
 	while(palavra[i] != '\0'){
 		indice = char_to_num(palavra[i++]);
+
+		//se a proxima letra não existe 
 		if(!raiz->proxima_letra[indice]){
 			return NULL;
 		}
