@@ -49,28 +49,24 @@ void trie_inserir_palavra(Trie *raiz, char *palavra){
 	raiz->fim_palavra = 1;
 }
 
-void trie_imprimir_palavra_comecada_em(Trie *raiz, char *prefixo){
+void trie_imprimir_palavras_comecadas_em(Trie *raiz, char *prefixo){
 	Trie *ultimo_no_prefixo = trie_procurar_prefixo(raiz, prefixo);
 
 	if(ultimo_no_prefixo){
 		if(ultimo_no_prefixo->fim_palavra)
 			printf("%s\n", prefixo);
-		else{
-			//procuar pela proxima letra da palavra no vetor
-			int i = 0;
-			for(; (i < TAMANHO_DO_ALFABETO); i++){
-				if(ultimo_no_prefixo->proxima_letra[i])
-					break;
+
+		//procuar pela proxima letra da palavra no vetor
+		int i = 0;
+		for(; (i < TAMANHO_DO_ALFABETO); i++){
+			if(ultimo_no_prefixo->proxima_letra[i]){
+				//acrescenta a letra encontrada
+				char *novo_prefixo = add_char_na_palavra(prefixo,int_to_char(i));
+				trie_imprimir_palavras_comecadas_em(raiz, novo_prefixo);
+				free(novo_prefixo);
 			}
-
-			//acrescenta a letra encontrada
-			char *novo_prefixo = add_char_na_palavra(prefixo,int_to_char(i));
-
-			trie_imprimir_palavra_comecada_em(raiz, novo_prefixo);
-			free(novo_prefixo);
 		}
-	}else
-		printf("%s nao existe na arvore\n", prefixo);
+	}
 }
 
 int trie_procurar_palavra(Trie *raiz, char *palavra){
@@ -103,5 +99,4 @@ Trie* trie_procurar_prefixo(Trie *raiz, char *palavra){
 	}
 
 	return raiz;
-	printf("%d", raiz->fim_palavra);
 }
