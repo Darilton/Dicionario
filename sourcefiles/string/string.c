@@ -1,4 +1,6 @@
 #include "string.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define SPACE_FOR_END_OF_STRING 1
 #define SPACE_FOR_NEW_CHAR 1
@@ -8,11 +10,11 @@ char *ler_palavra(FILE *fluxo_de_dados){
 
 	palavra = malloc(sizeof(char));
 
-	int ch, i = 1;
+	int ch, i = 0;
 	
 	while((ch = fgetc(fluxo_de_dados)) != '\n'){
-		palavra[i++ - 1] = ch;
-		char *tmp = realloc(palavra, sizeof(char)*i);
+		palavra[i++] = ch;
+		char *tmp = realloc(palavra, i);
 
 		if(tmp == NULL){
 			printf("Error! could not read word\n");

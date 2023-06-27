@@ -1,7 +1,6 @@
 #ifndef STRING_H
 #define STRING_H
 #include <stdio.h>
-#include <stdlib.h>
 
 int tamanho_da_palavra(char *palavra);
 
