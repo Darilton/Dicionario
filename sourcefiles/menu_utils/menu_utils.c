@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 void apresentar_menu(){
+	printf("Por favor, escolha uma das opcoes!\n");
         printf("1 - Inserir nova palavra\n");
         printf("2 - Consultar palavra no dicionario\n");
         printf("3 - Remover palavra do dicionario\n");
@@ -14,6 +15,13 @@ void apresentar_menu(){
         printf("10 - Verificar integridade do ficheiro\n");
         printf("0 - Terminar programa\n");
 	printf("opcao: ");
+}
+
+void esperar_tecla(){
+	char ch;
+	printf("\nPrima Enter tecla para voltar ao menu...");
+	while((ch = getchar()) != '\n')
+		;
 }
 
 int ler_opcao(){
