@@ -1,21 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "sourcefiles/string/string.h"
-#include "sourcefiles/trie/trie.h"
-#include "sourcefiles/string/string.h"
-#include "sourcefiles/menu_utils/menu_utils.h"
+
+#if defined(_WIN32) || defined(_WIN64)
+#	include "sourcefiles\\string\\string.h"
+#	include "sourcefiles\\trie\\trie.h"
+#	include "sourcefiles\\menu_utils\\menu_utils.h"
+#	define LIMPAR_TELA system("cls")
+#	define DICIONARIO "resources\\dicionario.dat"
+#else
+#	include "sourcefiles/string/string.h"
+#	include "sourcefiles/trie/trie.h"
+#	include "sourcefiles/menu_utils/menu_utils.h"
+#	define LIMPAR_TELA system("clear")
+#	define DICIONARIO "resources/dicionario.dat"
+#endif
+
+void carregar_trie_com_ficheiro(Trie *arvore, FILE *ficheiro);
 
 int main(){
 	char *palavra;
 	int opcao;
+
 	Trie *arvore = trie_nova_arvore();
 
-	//abrir_ficheiro_de_dados();
+	FILE *dicionario = fopen(DICIONARIO, "r");
 
-	//carregar_arvore_com_dados_do_ficheiro();
-	
+	carregar_trie_com_ficheiro(arvore, dicionario);
+
 	printf("Bem vindo\n");
-	printf("Por favor, escolha uma das opcoes!\n");
 
 	do{
 		apresentar_menu();
@@ -23,10 +35,13 @@ int main(){
 		opcao = ler_opcao();
 		getchar();
 
+		if((opcao > 0) && (opcao <= 10))
+			LIMPAR_TELA;
+
 		switch(opcao){
 			case 1:
-				//ler palavra
-				printf("\nInsira a palavra que deseja guardar neste dicionario\n");
+				printf("INSERCAO\n\n");
+				printf("Insira a palavra que deseja guardar neste dicionario\n");
 				printf("Palavra: ");
 				palavra = ler_palavra(stdin);
 
@@ -40,7 +55,8 @@ int main(){
 				break;
 			case 2:
 				//ler palavra
-				printf("\nInsira a palavra que deseja consultar\n");
+				printf("CONSULTA\n\n");
+				printf("Insira a palavra que deseja consultar\n");
 				printf("Palavra: ");
 				palavra = ler_palavra(stdin);
 
@@ -86,11 +102,11 @@ int main(){
 				break;
 		}
 
-		if((opcao > 0) && (opcao <= 10))			//evita o "double free() in tcashe2 erro"
+		if((opcao > 0) && (opcao <= 10)){			//evita o "double free() in tcashe2 erro"
+			esperar_tecla();
+			LIMPAR_TELA;
 			free(palavra);
-
-		if(opcao != 0)
-			putchar('\n');
+		}
 
 	}while(opcao != 0);
 
@@ -98,4 +114,11 @@ int main(){
 	printf("Programa terminado com sucesso!\n");
 	
 	return 0;
+}
+void carregar_trie_com_ficheiro(Trie *arvore, FILE *ficheiro){
+	char *palavra;
+	int i = 1;
+	while(palavra = ler_palavra(ficheiro)){
+		trie_inserir_palavra(arvore, palavra);
+	}
 }
