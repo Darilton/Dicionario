@@ -4,7 +4,7 @@ Dicionario: dicionario.o string.o trie.o char_utils.o menu_utils.o
 dicionario.o: dicionario.c sourcefiles/string/string.h sourcefiles/trie/trie.h sourcefiles/menu_utils/menu_utils.h
 	gcc -c dicionario.c
 
-string.o: sourcefiles/string/string.c sourcefiles/string/string.h sourcefiles/char_utils/char_utils.h
+string.o: sourcefiles/string/string.c sourcefiles/string/string.h sourcefiles/char_utils/char_utils.h sourcefiles/char_utils/char_utils.c
 	gcc -c sourcefiles/string/string.c
 
 trie.o: sourcefiles/trie/trie.c sourcefiles/trie/trie.h
