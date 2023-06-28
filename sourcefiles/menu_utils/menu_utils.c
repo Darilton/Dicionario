@@ -19,7 +19,7 @@ void apresentar_menu(){
 
 void esperar_tecla(){
 	char ch;
-	printf("\nPrima Enter tecla para voltar ao menu...");
+	printf("\nPrima Enter para voltar ao menu...");
 	while((ch = getchar()) != '\n')
 		;
 }
