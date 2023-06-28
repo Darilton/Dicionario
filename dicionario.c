@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./string/string.h"
-#include "./trie/trie.h"
-#include "./string/string.h"
-#include "./menu_utils/menu_utils.h"
+#include "sourcefiles/string/string.h"
+#include "sourcefiles/trie/trie.h"
+#include "sourcefiles/string/string.h"
+#include "sourcefiles/menu_utils/menu_utils.h"
 
 int main(){
 	char *palavra;
