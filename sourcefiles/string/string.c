@@ -1,4 +1,5 @@
 #include "string.h"
+#include "../char_utils/char_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,8 +13,12 @@ char *ler_palavra(FILE *fluxo_de_dados){
 
 	int ch, i = 0;
 	
-	while((ch = fgetc(fluxo_de_dados)) != '\n'){
-		palavra[i++] = ch;
+	if(((ch = fgetc(fluxo_de_dados)) == '\n') || (ch == EOF))
+		return NULL;
+
+	while((ch != '\n') && (ch != EOF)){
+
+		palavra[i++] = char_to_lower(ch);
 		char *tmp = realloc(palavra, i);
 
 		if(tmp == NULL){
@@ -21,6 +26,7 @@ char *ler_palavra(FILE *fluxo_de_dados){
 			break;
 		}
 
+		ch = fgetc(fluxo_de_dados);
 		palavra = tmp;
 	}
 
