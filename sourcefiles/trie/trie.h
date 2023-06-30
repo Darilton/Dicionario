@@ -16,6 +16,8 @@ void trie_imprimir_palavras(Trie *raiz);
 
 void trie_imprimir_palavras_comecadas_em(Trie *raiz, char *prefixo);
 
+void trie_imprimir_arvore(Trie *raiz);
+
 Trie *trie_procurar_prefixo(Trie *raiz, char *palavra);
 
 

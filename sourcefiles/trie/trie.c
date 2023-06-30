@@ -100,3 +100,18 @@ Trie* trie_procurar_prefixo(Trie *raiz, char *palavra){
 
 	return raiz;
 }
+
+void trie_imprimir_arvore(Trie *raiz){
+	printf("Palavras na arvore:\n\n");
+	
+	//Imprime as palavras começadas por cada vogal que existe na trie.
+	for(int i = 0; i < TAMANHO_DO_ALFABETO; i++){
+		char palavra[] = "";	//palavra para a funcao de impressao
+
+		if(raiz->proxima_letra[i]){
+			char *prefixo = add_char_na_palavra(palavra,int_to_char(i));
+			trie_imprimir_palavras_comecadas_em(raiz, prefixo);
+			free(prefixo);
+		}
+	}
+}
