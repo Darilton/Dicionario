@@ -17,7 +17,7 @@ void apresentar_menu(){
 	printf("opcao: ");
 }
 
-void esperar_tecla(){
+void esperar_enter(){
 	char ch;
 	printf("\nPrima Enter para voltar ao menu...");
 	while((ch = getchar()) != '\n')

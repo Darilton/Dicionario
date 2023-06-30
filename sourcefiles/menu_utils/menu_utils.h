@@ -2,7 +2,7 @@
 #define MUNU_UTILS
 
 void apresentar_menu();
-void esperar_tecla();
+void esperar_enter();
 int ler_opcao();
 
 #endif
