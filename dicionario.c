@@ -91,6 +91,7 @@ int main(){
 			case 8:
 				break;
 			case 9:
+				trie_imprimir_arvore(arvore);
 				break;
 			case 10:   
 				break;
@@ -103,7 +104,7 @@ int main(){
 		}
 
 		if((opcao > 0) && (opcao <= 10)){			//evita o "double free() in tcashe2 erro"
-			esperar_tecla();
+			esperar_enter();
 			LIMPAR_TELA;
 			free(palavra);
 		}
