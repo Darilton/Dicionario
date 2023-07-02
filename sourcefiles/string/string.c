@@ -6,19 +6,31 @@
 #define SPACE_FOR_END_OF_STRING 1
 #define SPACE_FOR_NEW_CHAR 1
 
-char *ler_palavra(FILE *fluxo_de_dados){
-	char *palavra;
+int encontrar_char_valido(FILE *fluxo_de_dados){
+	int ch;
+	while(!(is_valid_char(ch = fgetc(fluxo_de_dados)))){
+		if(ch == EOF)
+			return EOF;
+	}
+	return ch;
+}
 
+char *ler_palavra(FILE *fluxo_de_dados){
+	char *palavra;	int ch, i = 0;
+	int char_valido_encontrado = 0;
+
+	//se nao existir nenhuma palavra 
+	if(!(ch = encontrar_char_valido(fluxo_de_dados)))
+		return NULL;
+	
 	palavra = malloc(sizeof(char));
 
-	int ch, i = 0;
-	
-	if(((ch = fgetc(fluxo_de_dados)) == '\n') || (ch == EOF))
-		return NULL;
-
-	while((ch != '\n') && (ch != EOF)){
-
+	//le enquanto for um caracter valido
+	while((is_valid_char(ch))){
+		char_valido_encontrado = 1;
 		palavra[i++] = char_to_lower(ch);
+		
+		//adiciona espaco para o proximo caracter
 		char *tmp = realloc(palavra, i);
 
 		if(tmp == NULL){
@@ -30,9 +42,13 @@ char *ler_palavra(FILE *fluxo_de_dados){
 		palavra = tmp;
 	}
 
-	palavra[i] = '\0';
+	if(char_valido_encontrado){
+		palavra[i] = '\0';
+		return palavra;
+	}
+	free(palavra);
 
-	return palavra;
+	return NULL;
 }
 
 int tamanho_da_palavra(char *palavra){
