@@ -121,5 +121,6 @@ void carregar_trie_com_ficheiro(Trie *arvore, FILE *ficheiro){
 	int i = 1;
 	while(palavra = ler_palavra(ficheiro)){
 		trie_inserir_palavra(arvore, palavra);
+		free(palavra);
 	}
 }
