@@ -6,6 +6,18 @@
 #define SPACE_FOR_END_OF_STRING 1
 #define SPACE_FOR_NEW_CHAR 1
 
+int min(int a, int b, int c){
+    if (a < b && a < c) {
+        return a;
+    }
+    else if (b < a && b < c) {
+        return b;
+    }
+    else {
+        return c;
+    }
+}
+
 int encontrar_char_valido(FILE *fluxo_de_dados){
 	int ch;
 	while(!(is_valid_char(ch = fgetc(fluxo_de_dados)))){
@@ -60,6 +72,25 @@ int tamanho_da_palavra(char *palavra){
 		;
 
 	return tamanho - 1;
+}
+
+//naive levenshtein distance with O(3**max(m,n))
+int distancia_de_edicao(char *palavra1, int tam_palavra1, char *palavra2, int tam_palavra2){
+	if(tam_palavra1 == 0)
+		return tam_palavra2;
+
+	if(tam_palavra2 == 0)
+		return tam_palavra1;
+	
+	//se os ultimos caracteres fore iguais nao contribuem na distancia de edicao
+	if(palavra1[tam_palavra1 - 1] == palavra2[tam_palavra2 - 1])
+		return distancia_de_edicao(palavra1, tam_palavra1 - 1, palavra2, tam_palavra2 - 1);
+	
+	//se nao verifica os 3 casos e retorna o menor deles
+	return 1 + min(distancia_de_edicao(palavra1, tam_palavra1 - 1, palavra2, tam_palavra2 - 1),     //insercao
+		   distancia_de_edicao(palavra1, tam_palavra1, palavra2, tam_palavra2 - 1),		//remocao
+		   distancia_de_edicao(palavra1, tam_palavra1 - 1, palavra2, tam_palavra2)		//troca
+		   );
 }
 
 char *add_char_na_palavra(char *palavra, char char_para_adicionar){
