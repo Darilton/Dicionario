@@ -40,6 +40,7 @@ int main(){
 
 		switch(opcao){
 			case 1:
+				//ler palavra
 				printf("INSERCAO\n\n");
 				printf("Insira a palavra que deseja guardar neste dicionario\n");
 				printf("Palavra: ");
@@ -67,11 +68,20 @@ int main(){
 
 				break;
 			case 3:
+				//ler palavra
+				printf("Eliminar Palavra\n\n");
+				printf("Insira a palavra que deseja eliminar\n");
+				printf("Palavra: ");
+				palavra = ler_palavra(stdin);
+
+				trie_remover_palavra(arvore,palavra);
+
 				break;
 			case 4:
 				break;
 			case 5:
 				//ler prefixo
+				printf("\nPALAVRAS COMECADAS POR PREFIXO\n");
 				printf("\nInsira o prefixo\n");
 				printf("Prefixo: ");
 				palavra = ler_palavra(stdin);
@@ -88,9 +98,38 @@ int main(){
 				break;
 			case 7:
 				break;
-			case 8:
+			case 8:/*
+				//Verificador Ortografico
+				printf("\nVERIFICADOR ORTOGRAFICO\n");
+				printf("por favor insira o caminho para o ficheiro\n");
+				char caminho[] = scanf("%s", palavra);
+				printf("%s :caminho ", palavra);
+				
+				FILE *ficheiro = fopen("r", caminho_para_o_ficheiro);
+				while(palavra = ler_palavra(ficheiro)){
+					//se palavra nao existe
+					if(!trie_procurar_palavra(arvore,palavra)){
+						//Sugere palavra similar
+							//sugerir palavra similar
+
+						//Sugere insercao no dicionario
+						printf("%s nao existe no dicionario! Deseja adiciona-la?(s/n): ", palavra);
+						scanf("%c", &resposta);
+						putchar('\n');
+						
+						if((resposta == 's') || (resposta == 'S')){
+							trie_inserir_palavra(arvore,palavra);
+							printf("%s: palavra inserida com sucesso\n", palavra);
+						}
+					}
+
+					free(palavra);
+				}
+				*/
+
 				break;
 			case 9:
+				//imprimir arvore
 				trie_imprimir_arvore(arvore);
 				break;
 			case 10:   
@@ -109,7 +148,7 @@ int main(){
 			free(palavra);
 		}
 
-	}while(opcao != 0);
+	}while(opcao != 'q');
 
 	//atualizar_ficheiro_de_dados();
 	printf("Programa terminado com sucesso!\n");

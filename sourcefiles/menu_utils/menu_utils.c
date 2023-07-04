@@ -13,7 +13,7 @@ void apresentar_menu(){
         printf("8 - Verificador ortográfico\n");
         printf("9 - Indice\n");
         printf("10 - Verificar integridade do ficheiro\n");
-        printf("0 - Terminar programa\n");
+        printf("':'(dois pontos) - Terminar programa\n");
 	printf("opcao: ");
 }
 
