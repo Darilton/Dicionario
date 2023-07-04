@@ -13,6 +13,18 @@ struct no{
 
 Trie *trie_procurar_prefixo(Trie *raiz, char *palavra);
 
+int num_ponteiros_validos(Trie *no){
+	int num_filhos = 0;
+
+	//se existe ponteiro na posicao n incrementa a variavel
+	for(int n = 0; n < TAMANHO_DO_ALFABETO; n++){
+		if((no->proxima_letra[n]) != NULL)
+			num_filhos++;
+	}
+
+	return num_filhos;
+}
+
 Trie *novo_no(){
 	Trie *temp_no = malloc(sizeof(struct no));
 
@@ -30,7 +42,7 @@ Trie *novo_no(){
 	return temp_no;
 }
 
-Trie *trie_nova_arvore() { return novo_no(); }
+Trie *trie_nova_arvore() { return novo_no(NULL); }
 
 void trie_inserir_palavra(Trie *raiz, char *palavra){
 	int indice, i = 0;
@@ -47,6 +59,66 @@ void trie_inserir_palavra(Trie *raiz, char *palavra){
 	}
 
 	raiz->fim_palavra = 1;
+}
+
+Trie *apagar_subprefixo(Trie *raiz, char *palavra, int inicio_subprefixo){
+	// apaga a folha
+	if(num_ponteiros_validos(raiz)){
+		int indice = char_to_num(palavra[inicio_subprefixo]);
+		apagar_subprefixo(raiz->proxima_letra[indice], palavra, inicio_subprefixo + 1);
+	}
+	
+	free(raiz);
+	return NULL;
+}
+
+Trie *trie_inicio_remocao(Trie *raiz, char *palavra, int *inicio_substring){
+	int i = 0, profundidade;
+	Trie *aux;
+
+	//enquanto nao for o fim da palavra
+	while(palavra[i] != '\0'){
+		int indice = char_to_num(palavra[i]);
+
+		//se a proxima letra nao existe no vetor cria um novo no para essa letra
+		if((raiz->fim_palavra == 1) || (num_ponteiros_validos(raiz) > 1)){
+			aux = raiz;
+			profundidade = i;
+		}
+
+		raiz = raiz->proxima_letra[indice];
+		i++;
+	}
+
+	//caso a palavra seja um subprefixo
+	if(raiz->fim_palavra == 1){
+		aux = raiz;
+		profundidade = i;
+	}
+
+	*inicio_substring = profundidade;
+	
+	return aux;
+}
+
+Trie *trie_remover_palavra(Trie *raiz, char *palavra){
+	if(trie_procurar_palavra(raiz,palavra)){
+		int profundidade;
+		Trie *inicio_remocao = trie_inicio_remocao(raiz, palavra, &profundidade);
+
+		if((profundidade == tamanho_da_palavra(palavra)) && (num_ponteiros_validos(inicio_remocao))){
+			printf("Aconteceu\n");
+			inicio_remocao->fim_palavra = 0;
+		}else{
+			int indice = char_to_num(palavra[profundidade]);
+			inicio_remocao->proxima_letra[indice] = apagar_subprefixo(inicio_remocao->proxima_letra[indice], palavra, profundidade + 1);
+		}
+		printf("%s: palavra eliminada com sucesso\n", palavra);
+	}else{
+		printf("%s: palavra nao existe no dicionario\n", palavra);
+	}
+
+	return raiz;
 }
 
 void trie_imprimir_palavras_comecadas_em(Trie *raiz, char *prefixo){
