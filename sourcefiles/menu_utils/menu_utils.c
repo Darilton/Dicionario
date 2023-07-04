@@ -12,8 +12,8 @@ void apresentar_menu(){
         printf("7 - Mostrar palavras similares por distanciamento minimo\n");
         printf("8 - Verificador ortográfico\n");
         printf("9 - Indice\n");
-        printf("10 - Verificar integridade do ficheiro\n");
-        printf("':'(dois pontos) - Terminar programa\n");
+        printf("':'(dois pontos) - Verificar integridade do ficheiro\n");
+        printf("0 - Terminar programa\n");
 	printf("opcao: ");
 }
 
@@ -27,7 +27,7 @@ void esperar_enter(){
 int ler_opcao(){
 	char opcao = getchar();
 
-	if((opcao >= 48) && (opcao <= 57))
+	if((opcao >= 48) && (opcao <= 58))
 		return opcao - '0'; 
 
 	return -1;

@@ -148,7 +148,7 @@ int main(){
 			free(palavra);
 		}
 
-	}while(opcao != 'q');
+	}while(opcao != 0);
 
 	//atualizar_ficheiro_de_dados();
 	printf("Programa terminado com sucesso!\n");
